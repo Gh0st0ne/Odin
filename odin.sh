@@ -66,6 +66,7 @@ fi
 
 # check service(s) on the target :
 sudo nmap -sV ${target} > output.txt ; sudo chown ${UID} output.txt ; sudo chmod 755 output.txt
+echo -e "${YELLOW}[${RED}+${YELLOW}] Scanning '${target}' with NMAP ${RESET}" 
 
 # ftp :
 if grep -q 21/tcp output.txt; then
