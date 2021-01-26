@@ -94,7 +94,7 @@ function help() {
 
 cat << "EOF" 
 
-        Usage : sudo ./Zsasz.sh <target:1.1.1.1> <wordlist_user:/usr/share/wordlists/....> <wordlist_pass:/.../>
+        Usage : sudo ./odin.sh <target:1.1.1.1> <wordlist_user:/usr/share/wordlists/....> <wordlist_pass:/.../>
         
         @ arg 1 : the ip of the target - example : <1.1.1.1>
         
