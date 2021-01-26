@@ -21,7 +21,7 @@ You have to pass different parameters in order to work :
 Example : 
 
 ```bash
-sudo ./Odin 1.1.1.1 /usr/share/wordlists/common_user.txt /usr/share/wordlists/common_pass.txt
+sudo ./odin 1.1.1.1 /usr/share/wordlists/common_user.txt /usr/share/wordlists/common_pass.txt
 ```
   
 If you do not fill in all these parameters, the script will not be able to run.
