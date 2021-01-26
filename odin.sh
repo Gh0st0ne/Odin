@@ -16,11 +16,13 @@ export RESET='\033[1;00m'
 
 function check() {
 
+(( ${EUID} > "0" )) && echo -e "${RED}[${YELLOW}!${RED}] You must have S.U rights to run Odin ${RESET}" && exit 1
+
 if [ ! -e /usr/bin/hydra ] && [ ! -e /usr/bin/nmap ]; then
   sudo apt install -y hydra ; sudo apt install -y nmap &>/dev/null
 fi
 
-sudo ping -c 1 www.goole.com &>/dev/null
+ping -c 1 www.google.com &>/dev/null
 if [ "$?" -gt "0" ]; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] $basename$0 : Network error, please check your connection ${RESET}"; exit 1
 fi
@@ -47,16 +49,19 @@ echo -e "${RED} .:.:. UnknowUser50 .:.:. ${RED}"
 
 function main() {
 
-target=$($1)
-wordlist_user=$($2)
-wordlist_pass=$($3)
+# Number of arguments : 3 or exit
+if (( $# != 3 ))
+then
+  echo -e "${RED}[${YELLOW}+${RED}] $basename$0 : Argument error ! ${RESET}" ; help ; exit 1
+fi
 
-if (( $# < 3 )); then
-  clear ; echo -e "${YELLOW}[${RED}!${YELLOW}] $basename$0 : Fill in all the arguments !${RESET}"
-  help ; exit 1
-elif (( $# > 3 )); then
-  clear ; echo -e "${YELLOW}[${RED}!${YELLOW}] $basename$0 : Too many arguments !${RESET}"
-  help ; exit 1
+target=$1
+wordlist_user=$2
+wordlist_pass=$3
+
+# check arg 1 : ip format 
+if [ ${#target} -gt 15 ] || [ ${#target} -lt 7 ]; then
+  echo -e "${RED}[${YELLOW}!${RED}] The format of the IP does not correspond to the standard ! ${RESET}" ; help ; exit 1
 fi  
 
 # check service(s) on the target :
@@ -126,6 +131,7 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] ||[ "$1" == "help" ]; then
   clear ; help
 fi
 
-check
+# call function 'check' and 'main' with arguments
+check $@
 banner
-main
+main $@
