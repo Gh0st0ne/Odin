@@ -71,8 +71,8 @@ echo -e "${YELLOW}[${RED}+${YELLOW}] Scanning '${target}' with NMAP ${RESET}"
 # ftp :
 if grep -q 21/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] FTP service on the target ${RESET}"
-  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; readonly input
-  if [ ${input} = 'Y' ] || [ ${input} = 'y' ]; then
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
+  if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
     hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ftp > br_ftp.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ftp.txt ${RESET}"
   fi
@@ -81,8 +81,8 @@ fi
 # ssh :
 if grep -q 22/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] SSH service on the target ${RESET}"
-  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; readonly input
-  if [ ${input} = 'Y' ] || [ ${input} = 'y' ]; then
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
+  if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
     hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ssh > br_ssh.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ssh.txt ${RESET}"
   fi
