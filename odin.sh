@@ -60,8 +60,14 @@ wordlist_user=$2
 wordlist_pass=$3
 
 # check arg 1 : ip format 
-if [ ${#target} -gt 15 ] || [ ${#target} -lt 7 ]; then
-  echo -e "${RED}[${YELLOW}!${RED}] The format of the IP does not correspond to the standard ! ${RESET}" ; help ; exit 1
+if expr "${ip}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+  for i in 1 2 3 4; do
+    if [ $(echo "${ip}" | cut -d "." -f${i}) -gt 255 ]; then
+      echo -e "${RED}[${YELLOW}+${RED}] $basename$0 : Bad format for $1 ! ${RESET}" ; help ; exit 1
+    fi
+  done 
+else
+  echo -e "${RED}[$YELLOW}+${RED}] $basename$0 : Bad format for $1 ! ${RESET}" ; help ; exit 1
 fi  
 
 # check service(s) on the target :
