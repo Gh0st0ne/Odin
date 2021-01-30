@@ -60,9 +60,9 @@ wordlist_user=$2
 wordlist_pass=$3
 
 # check arg 1 : ip format 
-if expr "${ip}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+if expr "${target}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
   for i in 1 2 3 4; do
-    if [ $(echo "${ip}" | cut -d "." -f${i}) -gt 255 ]; then
+    if [ $(echo "${target}" | cut -d "." -f${i}) -gt 255 ]; then
       echo -e "${RED}[${YELLOW}!${RED}] $basename$0 : Bad IP format ${RESET}" ; help ; exit 1
     fi
   done
