@@ -63,12 +63,12 @@ wordlist_pass=$3
 if expr "${ip}" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
   for i in 1 2 3 4; do
     if [ $(echo "${ip}" | cut -d "." -f${i}) -gt 255 ]; then
-      echo -e "${RED}[${YELLOW}+${RED}] $basename$0 : Bad format for $1 ! ${RESET}" ; help ; exit 1
+      echo -e "${RED}[${YELLOW}!${RED}] $basename$0 : Bad IP format ${RESET}" ; help ; exit 1
     fi
-  done 
+  done
 else
-  echo -e "${RED}[$YELLOW}+${RED}] $basename$0 : Bad format for $1 ! ${RESET}" ; help ; exit 1
-fi  
+  echo -e "${RED}[${YELLOW}!${RED}} $basename$0 : Bad IP format ${RESET}" ; help ; exit 1
+fi
 
 # check service(s) on the target :
 sudo nmap -sV ${target} > output.txt ; sudo chown ${UID} output.txt ; sudo chmod 755 output.txt
