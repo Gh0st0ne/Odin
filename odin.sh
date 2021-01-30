@@ -4,7 +4,7 @@
 #
 # -@-Date : January 2021
 #
-# -@-Version : 1.0
+# -@-Version : 1.1
 #
 # -@-Licence : GPL 3.0
 
@@ -79,7 +79,7 @@ if grep -q 21/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] FTP service on the target ${RESET}"
   echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
   if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
-    hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ftp > br_ftp.txt
+    hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} -I ftp > br_ftp.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ftp.txt ${RESET}"
   fi
 fi
@@ -89,10 +89,30 @@ if grep -q 22/tcp output.txt; then
   echo -e "${YELLOW}[${RED}!${YELLOW}] SSH service on the target ${RESET}"
   echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[n]o) : ${RESET}" ; read input
   if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
-    hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} ssh > br_ssh.txt
+    hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} -I -t 4 ssh > br_ssh.txt
     echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_ssh.txt ${RESET}"
   fi
 fi 
+
+# telnet
+if grep -q 23/tcp output.txt; then
+  echo -e "${YELLOW}[${RED}!${YELLOW}] Telnet service on the target ${RESET}"
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[N]o) : ${RESET}" ; read input
+  if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
+    hydra -L ${wordlist_user} -P ${wordlist_pass} ${target} -I telnet > br_telnet.txt
+    echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_telnet.txt ${RESET}"
+  fi
+fi
+
+# mysql :
+if grep -q 3306/tcp output.txt; then
+  echo -e "${YELLOW}[${RED}!${YELLOW}] MySQL service on the target ${RESET}"
+  echo -e -n "${YELLOW}[${RED}!${YELLOW}] Bruteforce ? ([Y]es/[N]o) : ${RESET}" ; read input
+  if [ ${input} == 'Y' ] || [ ${input} == 'y' ]; then
+    hydra -L ${wordlist_user} -P ${wordlist_path} ${target} -I mysql > br_mysql.txt
+    echo -e "${YELLOW}[${RED}!${YELLOW}] Bruteforce OK - output : br_mysql.txt ${RESET}"
+  fi
+fi  
 
 }
 
@@ -120,23 +140,6 @@ EOF
 
 }
 
-function author() {
-
-cat << "EOF" 
-
-        Develop by : UnknowUser50
-        
-        Date : January 2021
-        
-        Github : https://www.github.com/UnknowUser50/
-        
-EOF
-
-}
-
-if [ "$1" == "--help" ] || [ "$1" == "-h" ] ||[ "$1" == "help" ]; then
-  clear ; help
-fi
 
 # call function 'check' and 'main' with arguments
 check $@
